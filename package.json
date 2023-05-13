@@ -4,7 +4,9 @@
   "description": "Communicare Apps Api",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "pm2 server.js --name api-srv"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,10 @@
   "homepage": "https://github.com/C23-PS325/CC-API#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.22",
+    "pm2": "^5.3.0"
   }
 }

@@ -1,19 +1,20 @@
-const mysql = require('mysql');
-require('dotenv').config();
+const express = require('express');
+const connection = require('./src/utils/db')
+const app = express();
+const port = process.env.PORT || 3000;
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+
+// Middleware to parse incoming JSON requests
+app.use(express.json());
+
+
+
+// Example route that returns a JSON response
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello, world!' });
 });
 
-connection.connect((error) => {
-  if (error) {
-    console.error('Failed to connect to database:', error);
-    process.exit(1);
-  }
-  console.log('Connected to database.');
+// Start the server and listen on the specified port
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}.`);
 });
-
-// Your application code goes here
