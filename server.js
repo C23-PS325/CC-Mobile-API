@@ -7,8 +7,6 @@ const port = process.env.PORT || 3000;
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
-
-
 // Example route that returns a JSON response
 app.get('/', (req, res) => {
   res.json({ message: 'Hello, world!' });
