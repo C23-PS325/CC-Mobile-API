@@ -10,11 +10,11 @@ const connection = mysql.createConnection({
 
 // Database connection
 connection.connect((error) => {
-    if (error) {
-      console.error('Failed to connect to database:', error);
-      process.exit(1);
-    }
-    console.log('Connected to database.');
-  })
+  if (error) {
+    console.error('Failed to connect to database:', error);
+    process.exit(1);
+  }
+  console.log('Connected to database.');
+})
 
-module.exports={connection};
+module.exports = connection;
