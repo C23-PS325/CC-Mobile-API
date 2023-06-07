@@ -2,17 +2,26 @@ const connection = require('../utils/db.js')
 const CryptoJS = require('crypto-js');
 
 
-const encryptWithAES = (text) => {
-  const passphrase = '123';
-  return CryptoJS.AES.encrypt(text, passphrase).toString();
-};
-
-const decryptWithAES = (ciphertext) => {
-  const passphrase = '123';
-  const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
-  const originalText = bytes.toString(CryptoJS.enc.Utf8);
-  return originalText;
-};
+function caesarEncrypt(text, shift) {
+    let result = "";
+    for (let i = 0; i < text.length; i++) {
+      let char = text[i];
+      if (char.match(/[a-z]/i)) {
+        let code = text.charCodeAt(i);
+        if (code >= 65 && code <= 90) {
+          char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+        } else if (code >= 97 && code <= 122) {
+          char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+        }
+      }
+      result += char;
+    }
+    return result;
+  }
+  
+  function caesarDecrypt(text, shift) {
+    return caesarEncrypt(text, 26 - shift);
+  }
 
 const getAllUsers = (req, res) => {
     const getQuery = 'SELECT * FROM users'
@@ -20,7 +29,7 @@ const getAllUsers = (req, res) => {
     connection.query(getQuery, (err, rows) => {
         if(err){
           res.json({
-            message: 'Query failed'
+            message: 'Query failed: '+err
           })
         }
         res.json({
@@ -28,20 +37,58 @@ const getAllUsers = (req, res) => {
           data: rows
         })
       })
-
 }
+
+
+const getSpecifiedUser = (req, res) => {
+    const getQuery = `SELECT * FROM users WHERE id = '${req.params.id}';`
+    connection.query(getQuery, (err, rows) => {
+        if(err){
+          res.json({
+            message: 'Query failed: '+err
+          })
+        }
+        res.json({
+          message:'Query success',
+          data: rows
+        })
+      })
+}
+
+
+
+const postSpecifiedUser = (req, res) => {
+    const postQuery = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${caesarEncrypt(req.body.password)}'`
+
+    connection.query(postQuery, (err, rows) => {
+      if(err){
+     res.json({
+       message: 'Query failed: '+err
+     })
+   }
+     res.json({
+       message:'Query success',
+       data: rows
+     })
+ })
+      
+}
+
+
+
+
 
 const createNewUser = (req, res) => {
     console.log(req.body)
 
-    const postQuery = `INSERT INTO users (username, email, password, photoUrl) VALUES ('${req.body.username}', '${req.body.email}', '${encryptWithAES(req.body.password)}', '${req.body.photoUrl}'); `
+    const postQuery = `INSERT INTO users (username, email, password, photoUrl) VALUES ('${req.body.username}', '${req.body.email}', '${caesarEncrypt(req.body.password)}', '${req.body.photoUrl}'); `
 
     connection.query(postQuery, (err, rows) => {
-        if(err){
-            res.json({
-              message: 'Query failed'
-            })
-          }
+           if(err){
+          res.json({
+            message: 'Query failed: '+err
+          })
+        }
           res.json({
             message:'Query success',
             data: rows
@@ -57,12 +104,11 @@ const updateUser = (req, res) => {
     `
 
     connection.query(patchQuery, (err, rows) => {
-        if(err){
-            console.log(getQuery)
-            res.json({
-              message: 'Query failed'
-            })
-          }
+          if(err){
+          res.json({
+            message: 'Query failed: '+err
+          })
+        }
           res.json({
             message:'Query success',
             data: rows
@@ -76,16 +122,15 @@ const deleteUser = (req, res) => {
     WHERE id = '${req.params.id}';`
 
     connection.query(deleteQuery, (err, rows) => {
-        if(err){
-            console.log(getQuery)
-            res.json({
-              message: 'Query failed'
-            })
-          }
+           if(err){
+          res.json({
+            message: 'Query failed: '+err
+          })
+        }
           res.json({
             message:'Query success',
             data: rows
           })
       })
 }
-module.exports = {getAllUsers, createNewUser, updateUser, deleteUser}
+module.exports = {getAllUsers, createNewUser, updateUser, deleteUser, postSpecifiedUser, getSpecifiedUser}

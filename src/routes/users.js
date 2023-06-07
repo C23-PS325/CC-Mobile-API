@@ -6,8 +6,9 @@ const router = express.Router()
 router.post("/", usersController.createNewUser)
 
 //READ
-router.get("/", usersController.getAllUsers
-)
+router.get("/", usersController.getAllUsers)
+router.get("/:id", usersController.getSpecifiedUser)
+router.post("/:username", usersController.postSpecifiedUser)
 
 //UPDATE
 router.patch("/:id", usersController.updateUser)

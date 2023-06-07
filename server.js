@@ -1,7 +1,7 @@
 const express = require('express');
 // const connection = require('./src/utils/db')
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 const usersRoutes=require('./src/routes/users.js')
 const middlewareLogRequest = require("./src/middleware/log.js")
 const connection = require('./src/utils/db.js')

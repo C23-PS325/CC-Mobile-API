@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "pm2 server.js --name api-srv"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
