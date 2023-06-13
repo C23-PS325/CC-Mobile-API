@@ -4,10 +4,10 @@ Version: MySQL 5.7
 ### Users
 ![Alt text](image.png)
 
-Instance: communicare
-Database: users
-Table: users
-
+Instance: communicare<br />
+Database: users<br />
+Table: users<br />
+<br />
 Config app.yaml:
   DB_USER: "root"
   DB_NAME: "users"
@@ -20,10 +20,10 @@ Config app.yaml:
 ### Script
 ![Alt text](image-1.png)
 
-  Instance: communicare
-Database: script
-Table: script
-
+Instance: communicare<br />
+Database: script<br />
+Table: script<br />
+<br />
 Config app.yaml:
   DB_USER: "root"
   DB_NAME: "script"
