@@ -1,8 +1,8 @@
 const express = require('express');
 // const connection = require('./src/utils/db')
 const app = express();
-const port = process.env.PORT || 8080;
-const usersRoutes=require('./src/routes/users.js')
+const port = process.env.PORT || 8081;
+const scriptsRoutes =require('./src/routes/scripts.js')
 const middlewareLogRequest = require("./src/middleware/log.js")
 const connection = require('./src/utils/db.js')
 
@@ -10,7 +10,7 @@ const connection = require('./src/utils/db.js')
 app.use(middlewareLogRequest)
 app.use(express.json())
 
-app.use('/users', usersRoutes);
+app.use('/script', scriptsRoutes);
 
 // Example route that returns a JSON response
 // app.get('/', (req, res) => {
@@ -23,6 +23,8 @@ app.listen(port, () => {
 });
 
 //
+
 app.get('/', (req, res) => {
- 
+    res.send('Hello, World!');
+
 }) 

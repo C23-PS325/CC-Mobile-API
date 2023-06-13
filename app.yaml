@@ -1,7 +1,9 @@
 runtime: nodejs10
+service: script
 
 env_variables:
   DB_USER: "root"
-  DB_NAME: "users"
+  DB_NAME: "script"
   DB_PASS: ""
   DB_INSTANCE_UNIX_SOCKET: "/cloudsql/communicare-388309:us-central1:communicare"
+
