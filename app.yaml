@@ -1,5 +1,5 @@
 runtime: nodejs10
-service: script
+service: default
 
 env_variables:
   DB_USER: "root"
