@@ -41,7 +41,7 @@ const getAllUsers = (req, res) => {
 
 
 const getSpecifiedUser = (req, res) => {
-    const getQuery = `SELECT * FROM users WHERE id = '${req.params.id}';`
+    const getQuery = `SELECT * FROM users WHERE username = '${req.params.username}';`
     connection.query(getQuery, (err, rows) => {
         if(err){
           res.json({
@@ -99,8 +99,8 @@ const createNewUser = (req, res) => {
 const updateUser = (req, res) => {
     console.log(req.params)
     const patchQuery = `UPDATE users
-    SET username = '${req.body.username}', email = '${req.body.email}', password = '${encryptWithAES(req.body.password)}', photoUrl = '${req.body.photoUrl}'
-    WHERE id = '${req.params.id}';
+    SET username = '${req.body.username}', email = '${req.body.email}', password = '${caesarEncrypt(req.body.password)}', photoUrl = '${req.body.photoUrl}'
+    WHERE username = '${req.params.username}';
     `
 
     connection.query(patchQuery, (err, rows) => {

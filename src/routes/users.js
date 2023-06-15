@@ -7,11 +7,11 @@ router.post("/", usersController.createNewUser)
 
 //READ
 router.get("/", usersController.getAllUsers)
-router.get("/:id", usersController.getSpecifiedUser)
+router.get("/:username", usersController.getSpecifiedUser)
 router.post("/:username", usersController.postSpecifiedUser)
 
 //UPDATE
-router.patch("/:id", usersController.updateUser)
+router.patch("/:username", usersController.updateUser)
 
 //DELETE
 router.delete("/:id", usersController.deleteUser)
