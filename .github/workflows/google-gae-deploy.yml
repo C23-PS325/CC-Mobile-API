@@ -2,7 +2,7 @@ name: Build and Deploy to Google App Engine
 
 on:
   push:
-    branches: [ "deploy-to-gae" ]
+    branches: [ "deploy-to-gae-script" ]
 
 env:
  PROJECT_ID: communicare-staging # TODO: update Google Cloud project id
