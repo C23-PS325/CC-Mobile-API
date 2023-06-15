@@ -1,0 +1,45 @@
+name: Build and Deploy to Google App Engine
+
+on:
+  push:
+    branches: [ "deploy-to-gae" ]
+
+env:
+ PROJECT_ID: communicare-staging # TODO: update Google Cloud project id
+ SERVICE: communicare-engine # TODO: update Google App Engine service name
+ REGION: asia-southeast2 # TODO: update Google App Engine service region
+
+jobs:
+  deploy:
+    # Add 'id-token' with the intended permissions for workload identity federation
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: Injecting GAE Environment
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+        run: |-
+          echo $SERVICE_ACCOUNT > .env
+          ls -lah
+
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v1.2.7
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          #version: default
+          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+          flags: --no-cache
+          deliverables: app.yaml
